@@ -1,0 +1,10 @@
+node_modules
+
+/.cache
+/build
+/public/build
+.env
+
+courses23.js
+data.json
+migrate.mjs
