@@ -7,12 +7,17 @@ import coursesRoutes from "./routes/coursesRoutes.js";
 import scheduleRoutes from "./routes/scheduleRoutes.js";
 import connectDB from "./config/db.js";
 import cors from "cors";
+import morgan from "morgan";
 
 dotenv.config();
 
 connectDB();
 
 const app = express();
+
+const logFormat = "[:date[iso]] :method :url :status - :response-time ms";
+app.use(morgan(logFormat));
+
 app.use(cors());
 
 app.use(express.json());
