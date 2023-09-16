@@ -74,7 +74,7 @@ export const groupSchedules = (schedules) => {
           schedule2.schedule
         );
 
-        console.log(clonedSchedules.slice(i + 1).length, j, similarity);
+        // console.log(clonedSchedules.slice(i + 1).length, j, similarity);
 
         if (similarity >= 0.6) {
           schedule2.similarityScore = similarity;

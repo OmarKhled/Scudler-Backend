@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post("/", (req, res, next) => {
   const data = req.body;
-  console.log(data);
+  // console.log(data);
   const courses = data.courses;
   // console.log(courses);
   const options = data.options;
@@ -24,20 +24,20 @@ router.post("/", (req, res, next) => {
       course.forEach((poss) => length++)
     );
 
-    console.log(length, "Course Possibilities");
+    // console.log(length, "Course Possibilities");
 
     const schedules = getSchedule(coursesPossibilities, options);
-    console.log(schedules.length);
+    // console.log(schedules.length);
 
     const groupedSchedules = groupSchedules(schedules);
 
-    console.log(groupedSchedules);
+    // console.log(groupedSchedules);
 
     // console.log(schedules);
 
     // console.log(schedules.length, "schedules");
 
-    console.log(groupedSchedules);
+    // console.log(groupedSchedules);
 
     res.json({ schedules, groupedSchedules });
     // res.json({ schedules: schedules });

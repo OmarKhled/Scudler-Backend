@@ -36,7 +36,7 @@ export const getSchedule = (combinations, options) => {
   // console.log(scheduleCombinations);
 
   scheduleCombinations.forEach((combination) => {
-    console.log("fitness", fitness(combination, options).fit);
+    // console.log("fitness", fitness(combination, options).fit);
     if (fitness(combination, options).fit >= 0) {
       const newSchedule = fitness(combination, options);
       schedules.push(newSchedule);
@@ -53,12 +53,12 @@ export const getSchedule = (combinations, options) => {
     });
   });
 
-  console.log(schedules.length, "length");
+  // console.log(schedules.length, "length");
 
   // console.log(schedules.length);
 
   schedules = sortSchedules(schedules);
-  console.log(schedules.length, "length");
+  // console.log(schedules.length, "length");
 
   // console.log(schedules);
 
