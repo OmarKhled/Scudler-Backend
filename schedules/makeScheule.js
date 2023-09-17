@@ -59,7 +59,6 @@ export const makeSchedule = (coursesCombinations, options) => {
   });
 
   let [valid, fitness] = validateSchedule(map);
-  console.log(valid);
   // If schedule is clear from clashes
   if (valid) {
     // Sort based on empty days
