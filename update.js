@@ -5,13 +5,12 @@ import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import colors from "colors";
 
-import { courses } from "./courses23.js";
 import Course from "./models/courseModel.js";
 
 dotenv.config();
 
 connectDB();
-const exportData = async () => {
+const exportData = async (courses) => {
   try {
     await Course.deleteMany();
 
@@ -33,8 +32,8 @@ const wait = async (ms) => {
 
 while (true) {
   console.log("Getting Data From Power Campus".blue.bold);
-  await fetchData();
-  await exportData();
+  const courses = await fetchData();
+  await exportData(courses);
 
   await new Promise((r) => setTimeout(r, 1000 * 60));
 }

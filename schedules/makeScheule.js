@@ -2,7 +2,26 @@ import _ from "lodash";
 
 const TYPES = ["lecture", "lab", "tutorial"];
 
-export const fitness = (courses, options) => {
+/**
+ *
+ * @param {Course[][][]} map
+ * @returns {boolean}
+ * @description Checks schedule for clashes
+ */
+const validateSchedule = (map) => {
+  let valid = true;
+  map.forEach((day) => {
+    day.forEach((slot) => {
+      if (slot.length > 1) {
+        valid = false;
+      }
+    });
+  });
+  return valid;
+};
+
+export const makeSchedule = (coursesCombinations, options) => {
+  // Schedule Day Map
   let map = [
     /* 0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17*/
     [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []], // Sunday     0
@@ -14,9 +33,9 @@ export const fitness = (courses, options) => {
     [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []], // Saturday   6
   ];
 
-  // console.log(courses);
-
-  courses.forEach((course) => {
+  // Itterates through each courseCombination snd maps it to the day map array
+  coursesCombinations.forEach((course) => {
+    // Iterate through the subtypes in the 'TYPES' array.
     TYPES.forEach((type) => {
       if (!_.isEmpty(course[type])) {
         course[type].slots.forEach((appointment) => {
@@ -35,45 +54,18 @@ export const fitness = (courses, options) => {
       }
     });
   });
-  let fit = 0;
-  map.forEach((day) => {
-    day.forEach((slot) => {
-      if (slot.length > 1) {
-        fit--;
-      }
+
+  let fitness = 0;
+  // If schedule is clear from clashes
+  if (validateSchedule(map)) {
+    // Sort based on empty days
+    map.forEach((day) => {
+      let emptyDay = true;
+      day.forEach((slot) => {
+        if (slot.length > 0) emptyDay = false;
+      });
+      if (emptyDay) fitness++;
     });
-  });
-  if (fit === 0) {
-    // Empty days
-    if (options.sortUponFreeDays) {
-      map.forEach((day) => {
-        let emptyDay = true;
-        day.forEach((slot) => {
-          if (slot.length > 0) emptyDay = false;
-        });
-        if (emptyDay) fit++;
-      });
-    }
-    if (options.sortUponOnlineDays) {
-      map.forEach((day) => {
-        let onlineDay = true;
-        day.forEach((slot) => {
-          if (slot.length > 0 && !slot[0].online) onlineDay = false;
-        });
-        if (onlineDay) fit++;
-      });
-    }
-    if (options.sortUponLastFreeSlots) {
-      [6, 7, 8].forEach((slot) => {
-        let free = true;
-        map.forEach((day) => {
-          if (day[slot].length > 0) {
-            free = false;
-          }
-        });
-        if (free) fit++;
-      });
-    }
   }
-  return { fit, schedule: map };
+  return { fitness, schedule: map };
 };
