@@ -56,7 +56,7 @@ export const getSchedules = (combinations, options) => {
   // Filtering Valid Combinations
   scheduleCombinations.forEach((combination) => {
     const newSchedule = makeSchedule(combination, options);
-    if (newSchedule.fitness >= 0) {
+    if (newSchedule.valid) {
       schedules.push(newSchedule);
     }
   });

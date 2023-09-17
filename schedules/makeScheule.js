@@ -5,19 +5,21 @@ const TYPES = ["lecture", "lab", "tutorial"];
 /**
  *
  * @param {Course[][][]} map
- * @returns {boolean}
+ * @returns {[boolean, number]}
  * @description Checks schedule for clashes
  */
 const validateSchedule = (map) => {
   let valid = true;
+  let fitness = 0;
   map.forEach((day) => {
     day.forEach((slot) => {
       if (slot.length > 1) {
         valid = false;
+        fitness--;
       }
     });
   });
-  return valid;
+  return [valid, fitness];
 };
 
 export const makeSchedule = (coursesCombinations, options) => {
@@ -56,9 +58,10 @@ export const makeSchedule = (coursesCombinations, options) => {
     });
   });
 
-  let fitness = 0;
+  let [valid, fitness] = validateSchedule(map);
+  console.log(valid);
   // If schedule is clear from clashes
-  if (validateSchedule(map)) {
+  if (valid) {
     // Sort based on empty days
     map.forEach((day) => {
       let emptyDay = true;
@@ -74,5 +77,5 @@ export const makeSchedule = (coursesCombinations, options) => {
       });
     });
   }
-  return { fitness, schedule: map };
+  return { fitness, schedule: map, valid };
 };
