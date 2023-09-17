@@ -5,7 +5,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
+    "start": "node --max-old-space-size=8096 server",
     "dev": "nodemon server"
   },
   "author": "Omar Khaled",
