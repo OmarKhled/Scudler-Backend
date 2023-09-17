@@ -4,6 +4,7 @@ import { getSchedules } from "../schedules/getSchedules.js";
 import getCourseCombinations from "../schedules/getCourseCombinations.js";
 import { groupSchedules } from "../schedules/schedulesUtil.js";
 import filterAvailableCourses from "../schedules/filterAvailableCourses.js";
+import { schedule } from "node-cron";
 
 const router = express.Router();
 
@@ -53,7 +54,12 @@ router.post("/", (req, res, next) => {
       groupedSchedules = groupSchedules(schedules);
     }
 
-    res.json({ schedules, groupedSchedules });
+    groupedSchedules = groupedSchedules.map((group) => ({
+      ...group,
+      schedules: [group.schedules[0]],
+    }));
+
+    res.json({ groupedSchedules });
 
     // Checking if possible without considering closed classes
   } catch (err) {
