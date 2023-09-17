@@ -30,7 +30,7 @@ app.get("/", (req, res, next) => {
   res.send("Scudler API");
 });
 
-const PORT = process.env.NODE_ENV === "production" ? 3000 : 8080;
+const PORT = process.env.NODE_ENV || 8080;
 
 app.listen(PORT, () =>
   console.log(
