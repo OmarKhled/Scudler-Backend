@@ -6,10 +6,16 @@
  */
 
 /**
+ * @typedef {Object} SubType
+ * @property {Slot[]} slots
+ * @property {boolean} available
+ */
+
+/**
  * @typedef {Object} Lecture
  * @property {string} lectureName
  * @property {string} professor
- * @property {Slot[]} slots
+ * @extends SubType
  */
 
 /**
@@ -17,7 +23,7 @@
  * @property {string} tutorialName
  * @property {string} tutorialPrefix
  * @property {string} ta
- * @property {Slot[]} slots
+ * @extends SubType
  */
 
 /**
@@ -25,7 +31,7 @@
  * @property {string} labName
  * @property {string} labPrefix
  * @property {string} ta
- * @property {Slot[]} slots
+ * @extends SubType
  */
 
 /**
@@ -34,6 +40,7 @@
  * @property {Lecture} lecture - Lecture
  * @property {Tutorial[]} tutorial - Tutorials
  * @property {Lab[]} labs - Labs
+ * @property {"lecture" | "labs" | "tutorial"} defaultSubType
  */
 
 /**

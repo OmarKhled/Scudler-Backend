@@ -5,7 +5,10 @@ node_modules
 /public/build
 .env
 
-courses23.js
+migrate/
+filteredCourses.json
 data.json
-migrate.mjs
-update.js
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

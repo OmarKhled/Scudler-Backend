@@ -48,6 +48,7 @@ export const makeSchedule = (coursesCombinations, options) => {
               slots: course[type].slots,
               subtype: type,
               prefix: course[type].prefix,
+              available: course[type].available,
             });
           });
         });
@@ -65,6 +66,12 @@ export const makeSchedule = (coursesCombinations, options) => {
         if (slot.length > 0) emptyDay = false;
       });
       if (emptyDay) fitness++;
+    });
+
+    map.forEach((day) => {
+      day.forEach((slot) => {
+        if (slot.length > 0 && !slot[0].available) fitness--;
+      });
     });
   }
   return { fitness, schedule: map };

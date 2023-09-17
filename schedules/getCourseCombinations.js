@@ -23,6 +23,7 @@ const labSectionForm = (lab) => ({
   instructor: lab.ta,
   online: lab.online,
   prefix: lab.labPrefix,
+  available: lab.available,
 });
 
 /**
@@ -34,6 +35,20 @@ const tutorialSectionForm = (tut) => ({
   instructor: tut.ta,
   online: tut.online,
   prefix: tut.tutorialPrefix,
+  available: tut.available,
+});
+
+/**
+ * @param {Tutorial} lecture
+ * @param {Section} section
+ */
+const lectureSectionForm = (lecture, section) => ({
+  name: lecture.lectureName,
+  slots: lecture.slots,
+  instructor: lecture.professor,
+  online: lecture.online,
+  prefix: "0" + section.sectionNumber,
+  available: lecture.available,
 });
 
 /**
@@ -45,20 +60,23 @@ export default (course) => {
   const courseCombinations = [];
 
   course.body.forEach((section) => {
-    const { lecture, tutorial, labs, sectionNumber } = section;
+    const { lecture, tutorial, labs, defaultSubType } = section;
 
     /** @type {CourseCombination} - Holds Combination of course */
-    const currentCombination = {
-      lecture: {
-        name: lecture.lectureName,
-        slots: lecture.slots,
-        instructor: lecture.professor,
-        online: lecture.online,
-        prefix: "0" + section.sectionNumber,
-      },
-      tutorial: {},
-      lab: {},
-    };
+    let currentCombination;
+    if (defaultSubType == "lecture" && lecture) {
+      currentCombination = {
+        lecture: lectureSectionForm(lecture, section),
+        tutorial: {},
+        lab: {},
+      };
+    } else {
+      currentCombination = {
+        lecture: {},
+        tutorial: {},
+        lab: {},
+      };
+    }
 
     // Looping over each of the other subtypes and constructiong combinations
     if (tutorial.length > 0) {
@@ -66,18 +84,12 @@ export default (course) => {
         if (labs.length > 0) {
           labs.forEach((lab) => {
             currentCombination.lab = labSectionForm(lab);
-            currentCombination.tutorial = {
-              name: tut.tutorialName,
-              slots: tut.slots,
-              instructor: tut.ta,
-              online: tut.online,
-              prefix: tut.tutorialPrefix,
-            };
+            currentCombination.tutorial = tutorialSectionForm(tut);
             courseCombinations.push({ ...currentCombination });
           });
         } else {
           currentCombination.lab = {};
-          currentCombination.tutorial = tutorialSectionForm(tutorial);
+          currentCombination.tutorial = tutorialSectionForm(tut);
           courseCombinations.push({ ...currentCombination });
         }
       });
