@@ -35,6 +35,8 @@ export const makeSchedule = (coursesCombinations, options) => {
     [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []], // Saturday   6
   ];
 
+  // console.log("makeSchedule.js: filling map with courses");
+
   // Itterates through each courseCombination snd maps it to the day map array
   coursesCombinations.forEach((course) => {
     // Iterate through the subtypes in the 'TYPES' array.
@@ -57,10 +59,15 @@ export const makeSchedule = (coursesCombinations, options) => {
       }
     });
   });
+  // console.log("makeSchedule.js: map filled with courses");
 
+  // console.log("makeSchedule.js: checking validity of map");
   let [valid, fitness] = validateSchedule(map);
+  // console.log("makeSchedule.js: map validity checked");
   // If schedule is clear from clashes
   if (valid) {
+    // console.log("makeSchedule.js: valid map passed");
+    // console.log("makeSchedule.js: Sort based on empty days");
     // Sort based on empty days
     map.forEach((day) => {
       let emptyDay = true;
@@ -70,6 +77,7 @@ export const makeSchedule = (coursesCombinations, options) => {
       if (emptyDay) fitness++;
     });
 
+    // console.log("makeSchedule.js: Sort based on non-opened slots");
     map.forEach((day) => {
       day.forEach((slot) => {
         if (slot.length > 0 && !slot[0].available) fitness--;

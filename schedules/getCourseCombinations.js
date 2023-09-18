@@ -57,8 +57,14 @@ const lectureSectionForm = (lecture, section) => ({
  * @returns {CourseCombination[]}
  */
 export default (course) => {
+  console.log(
+    `getCourseCombinations.js: Formulating coursesCombination for course ${
+      course.courseName.split(":")[0]
+    } - defaultSubType: ${course.body[0].defaultSubType}`
+  );
   const courseCombinations = [];
 
+  console.log(`getCourseCombinations.js: looping on body sections`);
   course.body.forEach((section) => {
     const { lecture, tutorial, labs, defaultSubType } = section;
 
@@ -107,6 +113,10 @@ export default (course) => {
       }
     }
   });
+
+  console.log(
+    `getCourseCombinations.js: Body loop ended, courseCombinations formulated`
+  );
 
   return courseCombinations;
 };

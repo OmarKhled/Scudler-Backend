@@ -50,9 +50,14 @@ export const getSchedules = (combinations, options) => {
     }
   };
 
+  console.log("getSchedules.js: Formulating allPossibleCombinations");
   // Getting All Possible Combinations for schedule
   const scheduleCombinations = allPossibleCombinations(combinations);
+  console.log("getSchedules.js: allPossibleCombinations formulated");
 
+  console.log(
+    "getSchedules.js: filtering scheduleCombinations and making schedules"
+  );
   // Filtering Valid Combinations
   scheduleCombinations.forEach((combination) => {
     const newSchedule = makeSchedule(combination, options);
@@ -61,6 +66,12 @@ export const getSchedules = (combinations, options) => {
     }
   });
 
+  console.log(
+    "getSchedules.js: done filtering scheduleCombinations and making schedules"
+  );
+
+  console.log("getSchedules.js: sortSchedules");
   schedules = sortSchedules(schedules);
+  console.log("getSchedules.js: sortSchedules done");
   return schedules;
 };
