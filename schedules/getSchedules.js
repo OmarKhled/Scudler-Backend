@@ -58,9 +58,11 @@ export const getSchedules = (combinations, options) => {
   console.log(
     "getSchedules.js: filtering scheduleCombinations and making schedules"
   );
+  console.log(scheduleCombinations.length);
   // Filtering Valid Combinations
   scheduleCombinations.forEach((combination) => {
     const newSchedule = makeSchedule(combination, options);
+    // console.log(newSchedule.fitness);
     if (newSchedule.valid) {
       schedules.push(newSchedule);
     }

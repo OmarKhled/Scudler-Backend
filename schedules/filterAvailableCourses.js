@@ -20,6 +20,7 @@ const filterAvailableCourses = (courses) => {
       .map((section) => {
         /** @type {Section} */
         const newSection = {
+          ...section,
           sectionNumber: section.sectionNumber,
           lecture: {},
           tutorial: [],

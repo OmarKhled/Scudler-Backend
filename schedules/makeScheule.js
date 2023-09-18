@@ -2,25 +2,25 @@ import _ from "lodash";
 
 const TYPES = ["lecture", "lab", "tutorial"];
 
-/**
- *
- * @param {Course[][][]} map
- * @returns {[boolean, number]}
- * @description Checks schedule for clashes
- */
-const validateSchedule = (map) => {
-  let valid = true;
-  let fitness = 0;
-  map.forEach((day) => {
-    day.forEach((slot) => {
-      if (slot.length > 1) {
-        valid = false;
-        fitness--;
-      }
-    });
-  });
-  return [valid, fitness];
-};
+// /**
+//  *
+//  * @param {Course[][][]} map
+//  * @returns {[boolean, number]}
+//  * @description Checks schedule for clashes
+//  */
+// const validateSchedule = (map) => {
+//   let valid = true;
+//   let fitness = 0;
+//   map.forEach((day) => {
+//     day.forEach((slot) => {
+//       if (slot.length > 1) {
+//         valid = false;
+//         fitness--;
+//       }
+//     });
+//   });
+//   return [valid, fitness];
+// };
 
 export const makeSchedule = (coursesCombinations, options) => {
   // Schedule Day Map
@@ -37,32 +37,49 @@ export const makeSchedule = (coursesCombinations, options) => {
 
   // console.log("makeSchedule.js: filling map with courses");
 
+  let valid = true;
+
   // Itterates through each courseCombination snd maps it to the day map array
-  coursesCombinations.forEach((course) => {
-    // Iterate through the subtypes in the 'TYPES' array.
-    TYPES.forEach((type) => {
+  outerLoop: for (
+    let courseIndex = 0;
+    courseIndex < coursesCombinations.length;
+    courseIndex++
+  ) {
+    const course = coursesCombinations[courseIndex];
+
+    for (let typesIndex = 0; typesIndex < TYPES.length; typesIndex++) {
+      const type = TYPES[typesIndex];
       if (!_.isEmpty(course[type])) {
-        course[type].slots.forEach((appointment) => {
-          appointment.slot.forEach((slot) => {
-            map[Number(appointment.day)][Number(slot)].push({
-              name: course[type].name,
-              instructor: course[type].instructor,
-              type,
-              online: course[type].online,
-              slots: course[type].slots,
-              subtype: type,
-              prefix: course[type].prefix,
-              available: course[type].available,
-            });
-          });
-        });
+        for (
+          let appointmentIndex = 0;
+          appointmentIndex < course[type].slots.length;
+          appointmentIndex++
+        ) {
+          const appointment = course[type].slots[appointmentIndex];
+
+          for (
+            let slotIndex = 0;
+            slotIndex < appointment.slot.length;
+            slotIndex++
+          ) {
+            const slot = appointment.slot[slotIndex];
+            if (map[Number(appointment.day)][Number(slot)].length > 0) {
+              valid = false;
+              break outerLoop;
+            } else {
+              map[Number(appointment.day)][Number(slot)].push({
+                ...course[type],
+              });
+            }
+          }
+        }
       }
-    });
-  });
+    }
+  }
   // console.log("makeSchedule.js: map filled with courses");
 
   // console.log("makeSchedule.js: checking validity of map");
-  let [valid, fitness] = validateSchedule(map);
+  let fitness = 0;
   // console.log("makeSchedule.js: map validity checked");
   // If schedule is clear from clashes
   if (valid) {

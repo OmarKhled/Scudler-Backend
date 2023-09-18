@@ -41,7 +41,7 @@ export const groupSchedules = (schedules) => {
           schedule2.schedule
         );
 
-        if (similarity >= 0.6) {
+        if (similarity >= 0.7) {
           schedule2.similarityScore = similarity;
           similarSchedules.push(schedule2);
           clonedSchedules.splice(i + j + 1, 1);
