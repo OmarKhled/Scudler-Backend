@@ -26,9 +26,6 @@ const filterAvailableCourses = (courses) => {
           labs: [],
           [section.defaultSubType]: section[section.defaultSubType],
         };
-        if (course.courseName === "APBI408: Practical Applied Biotechnology") {
-          console.log(newSection);
-        }
         TYPES.forEach((type) => {
           const newSubType = section[type].filter(
             (subType) => subType.available
