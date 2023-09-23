@@ -13,6 +13,7 @@ router.get("/", async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
+    throw new Error("DB Fetching error")
     res.status(500).json({ msg: "Server Error" });
   }
 });
