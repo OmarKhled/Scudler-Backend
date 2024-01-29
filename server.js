@@ -5,6 +5,7 @@ import path from "path";
 
 import coursesRoutes from "./routes/coursesRoutes.js";
 import scheduleRoutes from "./routes/scheduleRoutes.js";
+import roomsRouts from "./routes/roomsSchedules.js";
 import connectDB from "./config/db.js";
 import cors from "cors";
 import morgan from "morgan";
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/courses", coursesRoutes);
+app.use("/api/rooms", roomsRouts);
 app.use("/api/schedules", scheduleRoutes);
 
 app.get("/", (req, res, next) => {
