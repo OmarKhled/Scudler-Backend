@@ -60,7 +60,7 @@ export const getSchedules = (combinations, options) => {
   );
   console.log(scheduleCombinations.length);
   // Filtering Valid Combinations
-  scheduleCombinations.slice(0, 200000).forEach((combination) => {
+  scheduleCombinations.slice(0, 30000).forEach((combination) => {
     const newSchedule = makeSchedule(combination, options);
     // console.log(newSchedule.fitness);
     if (newSchedule.valid) {
