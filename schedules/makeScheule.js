@@ -69,6 +69,7 @@ export const makeSchedule = (coursesCombinations, options) => {
             } else {
               map[Number(appointment.day)][Number(slot)].push({
                 ...course[type],
+                subtype: type,
               });
             }
           }
