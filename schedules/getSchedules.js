@@ -63,7 +63,7 @@ export const getSchedules = (combinations, options) => {
               if (result.length > 500) {
                 break outLoop;
               }
-              console.log(result.length);
+              // console.log(result.length);
             }
           } else {
             result.push(combination);
