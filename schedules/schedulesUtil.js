@@ -8,7 +8,10 @@ const similarityScore = (map1, map2) => {
     day.forEach((map1Slot, slotIndex) => {
       const map2Slot = map2[dayIndex][slotIndex];
       if (map2Slot.length > 0 && map1Slot.length > 0) {
-        if (_.isEqual(map1Slot, map2Slot)) {
+        // console.log({ map1Slot });
+        if (map1Slot.length === 0 && map2Slot.length === 0) {
+          score++;
+        } else if (_.isEqual(map1Slot[0].name, map2Slot[0].name)) {
           score++;
         }
       }
@@ -57,6 +60,10 @@ export const groupSchedules = (schedules) => {
 
         clonedSchedules.splice(i, 1);
         i--;
+      }
+
+      if (groupedSchedules.length > 10) {
+        break;
       }
     }
   }

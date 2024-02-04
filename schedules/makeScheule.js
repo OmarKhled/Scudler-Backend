@@ -2,27 +2,9 @@ import _ from "lodash";
 
 const TYPES = ["lecture", "lab", "tutorial"];
 
-// /**
-//  *
-//  * @param {Course[][][]} map
-//  * @returns {[boolean, number]}
-//  * @description Checks schedule for clashes
-//  */
-// const validateSchedule = (map) => {
-//   let valid = true;
-//   let fitness = 0;
-//   map.forEach((day) => {
-//     day.forEach((slot) => {
-//       if (slot.length > 1) {
-//         valid = false;
-//         fitness--;
-//       }
-//     });
-//   });
-//   return [valid, fitness];
-// };
-
 export const makeSchedule = (coursesCombinations, options) => {
+  // console.time("make");
+  // console.log(coursesCombinations);
   // Schedule Day Map
   let map = [
     /* 0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17*/
@@ -55,7 +37,9 @@ export const makeSchedule = (coursesCombinations, options) => {
           appointmentIndex < course[type].slots.length;
           appointmentIndex++
         ) {
+          // console.log({ slots: course[type].slots });
           const appointment = course[type].slots[appointmentIndex];
+          // console.log({ appointment });
 
           for (
             let slotIndex = 0;
@@ -65,6 +49,7 @@ export const makeSchedule = (coursesCombinations, options) => {
             const slot = appointment.slot[slotIndex];
             if (map[Number(appointment.day)][Number(slot)].length > 0) {
               valid = false;
+              // console.log("not valid");
               break outerLoop;
             } else {
               map[Number(appointment.day)][Number(slot)].push({
@@ -102,5 +87,6 @@ export const makeSchedule = (coursesCombinations, options) => {
       });
     });
   }
+  // console.timeEnd("make");
   return { fitness, schedule: map, valid };
 };

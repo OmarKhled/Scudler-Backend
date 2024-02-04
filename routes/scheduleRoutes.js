@@ -108,7 +108,7 @@ router.post("/", (req, res, next) => {
     }
 
     console.log("scheduleRoutes.js: Reducing Response");
-    groupedSchedules = groupedSchedules.map((group) => ({
+    groupedSchedules = groupedSchedules.slice(0, 11).map((group) => ({
       ...group,
       schedules: [group.schedules[0]],
     }));
