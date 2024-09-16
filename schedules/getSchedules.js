@@ -15,6 +15,7 @@ export const getSchedules = (combinations, options) => {
    * @description Returns All Courses Combinations Combined
    */
   const allPossibleCombinations = (combinations, child = false) => {
+    console.log(combinations.length);
     // Base case: If there are no combinations, return an empty array.
     if (combinations.length === 0) {
       return [];
@@ -22,10 +23,13 @@ export const getSchedules = (combinations, options) => {
     // Base case: If there's only one combination, return each element of that combination as a separate array.
     else if (combinations.length === 1) {
       const combs = combinations[0].map((combination) => [combination]);
+      console.log({ combs });
       if (child) {
         return combs;
       } else {
-        combs.map((comb) => makeSchedule(comb)).filter((comb) => comb.valid);
+        return combs
+          .map((comb) => makeSchedule(comb))
+          .filter((comb) => comb.valid);
       }
     }
     // Recursive case: When there are multiple combinations to combine.
@@ -82,6 +86,7 @@ export const getSchedules = (combinations, options) => {
   console.log("getSchedules.js: Formulating allPossibleCombinations");
   // Getting All Possible Combinations for schedule
   schedules = allPossibleCombinations(combinations);
+  console.log({ schedules });
   console.log("getSchedules.js: allPossibleCombinations formulated");
 
   console.log(
